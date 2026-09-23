@@ -78,7 +78,6 @@ const FEATURES = [
       example('dev.json','Start your local services together.',script('up','docker compose up -d')),
       example('logs.yaml','Follow whichever services you pass.\nTry: qrl logs api worker',script('logs','docker compose logs -f "$@"')),
       example('release.toml','Stop the chain if a check fails.',script('build','set -e\nnpm run lint\nnpm test\nnpm run build')),
-      example('windows.yaml','Choose PowerShell and use $args.',script('hello','Write-Output "Hello, $($args[0])!"','pwsh')),
       example('docs.toml','Keep the docs preview command handy.',script('preview','uv run mkdocs serve')),
     ],
   },
@@ -134,7 +133,7 @@ const DOODLES = {
   cli: ['Would be sick if keys turned into CLI commands.', 'What if this whole tool was just called logs?', 'TOML tables could be little command groups…', 'Same idea, but make it YAML?', 'JSON people should get to play too.', 'Forget a command? Maybe just pick from a menu.', 'One config, one tiny tool. Personal toolbox?', 'Links + folders + scripts, all in one file?', 'Edit. Save. Run again. No rebuild dance.'],
   urls: ['What if my bookmarks lived in git?', 'One place for all the dashboards I keep losing.', 'Oooh we could even support parameters in URLs.', 'A tiny reading list, straight from the terminal.', 'That one link I always open in Edge…', 'Could the host AND the repo be parameters?', 'Paste a request ID. Jump straight to its logs.', 'Not everything has to be work stuff :)', 'Missing a parameter? Just ask me for it.'],
   paths: ['Would love to teleport between project folders.', 'All those dotfiles… give them little names?', 'One repo shortcut, any project. Hmm.', 'My notes deserve shortcuts too.', 'Folders inside groups inside folders?', 'Where did I put that SSH config again?', 'Same file, different environment. Parameter?', 'Sometimes right here is the best starting point.', 'Could I pass a saved path into another command?'],
-  scripts: ['Timestamp the journal, then drop me into nvim.', 'The whole pre-commit ritual in one command?', 'Forward all the args. No wrapper boilerplate.', 'kubectl commands are long. Bottle the useful bits?', 'Bring up the local stack. Go make coffee.', 'Follow logs for whichever services I name.', 'Chain the checks. Stop if anything fails.', 'PowerShell friends should get shortcuts too.', 'I can never remember the docs preview command.'],
+  scripts: ['Timestamp the journal, then drop me into nvim.', 'The whole pre-commit ritual in one command?', 'Forward all the args. No wrapper boilerplate.', 'kubectl commands are long. Bottle the useful bits?', 'Bring up the local stack. Go make coffee.', 'Follow logs for whichever services I name.', 'Chain the checks. Stop if anything fails.', 'I can never remember the docs preview command.'],
   teams: ['What if everyone on the team had the same tool?', 'New joiner starter pack, but as a config.', 'Support links that nobody has to ask for.', 'Shared names for logs, docs, reviews, the lot?', 'An incident toolbox. Less searching at 3am.', 'One shared command for our quality checks.', 'Maybe this is useful outside engineering too?', 'That review queue should be one command away.', 'Change the link. Keep the name. Nobody relearns it.'],
 };
 for (const feature of FEATURES) {
