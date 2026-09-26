@@ -71,6 +71,7 @@ function enableNoteMenu(wall) {
   menu.addEventListener('toggle', () => {
     if (menu.open) document.getElementById('notes-menu-label').textContent = 'Browse spec ideas';
   });
+  menu.open = true;
   document.addEventListener('click', event => {
     if (menu.open && !menu.contains(event.target)) menu.open = false;
   }, true);
