@@ -42,7 +42,7 @@ a:focus-visible,button:focus-visible{
   min-width:0
 }
 .tile{
-  background:var(--bg);
+  background:color-mix(in srgb,var(--bg) 95%,transparent);
   color:var(--fg);
   border:1px solid color-mix(in srgb,var(--fg) 15%,transparent);
   border-radius:9px;
@@ -748,7 +748,7 @@ main { width: 100%; height: 100svh; }
 .cycle-status { display: block; margin-top: 10px; font-size: 10px; color: #89948d; white-space: nowrap; }
 .site-header .install-link { flex-shrink: 0; color: #ddd; text-decoration: none; }
 .site-header .install-link { display: inline-flex; align-items: center; gap: 7px; }
-.github-mark { width: 14px; height: 14px; fill: currentColor; flex-shrink: 0; }
+.github-mark { width: 18px; height: 18px; fill: currentColor; flex-shrink: 0; }
 .settings { position: relative; flex-shrink: 0; }
 .settings summary { cursor: pointer; list-style: none; font-size: 19px; color: #999; }
 .settings summary::-webkit-details-marker { display: none; }
@@ -828,7 +828,7 @@ main { width: 100%; height: 100svh; }
   max-height: calc(100% - 20px);
   border-radius: 7px;
   box-shadow: 0 12px 28px #0007, 0 2px 5px #0006;
-  resize: none;
+  resize: both;
   overflow: hidden;
 }
 .wall > .superstar { width: clamp(330px, 35vw, 560px); height: clamp(290px, 49vh, 475px); }
@@ -871,7 +871,7 @@ main { width: 100%; height: 100svh; }
 /* Subtle desktop wallpaper beneath the notes and existing edge fades. */
 main {
   background:
-    linear-gradient(#101218b8, #101218b8),
+    linear-gradient(#10121888, #10121888),
     url('./bg.png') center / contain no-repeat,
     #101218;
 }

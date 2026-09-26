@@ -4,7 +4,7 @@
 const NOTES = [
   {
     file: 'could-be-cool.toml',
-    open: true,
+    open: false,
     featured: true,
     source: `# <+> main idea <+>
 # qrlkit turns file --> cli tool
@@ -39,7 +39,7 @@ nvim $path
   },
   {
     file: 'nesting.toml',
-    open: true,
+    open: false,
     source: `# Actually for logs having nesting would be very very use full
 # So for like "logs backend prod nginx" we would use keys like so:
 
@@ -68,7 +68,7 @@ failed-signups = "https://logs.internal/app/discover#/view/d5037bc1"
   },
   {
     file: 'qrlkit-basics.toml',
-    open: true,
+    open: false,
     source: `# See installed QRLs
 $ qrlkit
 
