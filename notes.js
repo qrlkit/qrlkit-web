@@ -30,7 +30,7 @@ dev = "~/dev"
 
 # Uh or even put small tricks / scrips in there like "notes todo"
 [notes.todo]
-$run = """
+run = """
 path = ~/home/notes/todo.md
 sed -i "1i# $(date '+%Y-%m-%d %H:%M:%S')" $path
 nvim $path
@@ -123,13 +123,13 @@ dotfiles = "~/.config/{tool}"
 # Scripts should support normal shell syntax with $1 $2 $3 etc
 [scripts]
 [scripts.release]
-"$run" = """
+"run" = """
 helm upgrade --install scaleapp ~/dev/scaleapp/helm/$1/release.yaml
 """
 
 # And $@ to parse complete list of args user gave
 [scripts.pr]
-"$run" = 'gh pr create "$@"'
+"run" = 'gh pr create "$@"'
 `,
   },
   {
@@ -142,14 +142,14 @@ helm upgrade --install scaleapp ~/dev/scaleapp/helm/$1/release.yaml
 [dotfiles]
 nvim = '~/.config/nvim/init.lua'
 tmux = '~/.config/tmux/.tmux.config'
-"$filehook" = "nvim file"
+"filehook" = "nvim $file"
 
 # Same kind of things for dirs. By default we cd into them
 # but user should be able to do more like:
 [repo]
 blog = "~/blog"
 notes = "~/notes"
-"$dirhook" = "cd dir && tree -L 1 ."
+"dirhook" = "cd $dir && tree -L 1 ."
 
 # Links are opens in the browser choosen at qrlkit init
 # Sometimes certain pages only run on som browsers
@@ -161,8 +161,8 @@ timereg = "https://hr.internal.org/app"
 
 # Each of these should be local overwrites to
 # global default values set by user with
-qrlkit set-filehook "nvim file"
-qrlkit set-dirhook "cd dir && tree -L 1"
+qrlkit set-filehook "nvim $file"
+qrlkit set-dirhook "cd $dir && tree -L 1"
 qrlkit set-browser "Chrome"
 `,
   },
