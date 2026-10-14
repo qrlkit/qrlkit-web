@@ -71,37 +71,80 @@ https://github.com/qrlkit/qrlkit-rs
 `,
   },
   {
-    file: 'qrlkit-cmds.toml',
+    file: 'qrlkit-cli.md',
     open: false,
-    source: `# See installed QRLs
-$ qrlkit
+    source: `
+# Here is a list of the current \`qrlkit\` cli commands: 
 
-# Browse or open a resource
-$ qrlkit [keys...]
+Browse or open a resource
+\`\`\`
+$ qrlkit [keys…]
+\`\`\`
 
-# Add a QRLs file (toml, yaml, json should be supported)
-$ qrlkit add <path>
+Use a separate state file for debugging
+\`\`\`
+$ qrlkit --config <path> …
+\`\`\`
 
-# List registered config files
+Register configs and set up root commands
+\`\`\`
+$ qrlkit add <file-or-directory>
+\`\`\`
+
+List registered config files
+\`\`\`
 $ qrlkit ls
+\`\`\`
 
-# Unregister a config, but keep the file
-$ qrlkit rm <path>
+Remove a key and everything under it; omit keys to choose
+\`\`\`
+$ qrlkit rm [keys…]
+\`\`\`
 
-# Refresh imports and retry directory setup
+Refresh imports and retry shell setup
+\`\`\`
 $ qrlkit reload
+\`\`\`
 
-# Choose a browser
+Choose \`merge\` (default) to combine shared namespaces or \`rename\` to rename conflicting roots
+\`\`\`
+$ qrlkit set-collision-strategy <strategy>
+\`\`\`
+
+Choose the default browser
+\`\`\`
 $ qrlkit set-browser
+\`\`\`
 
-# Print shell integration for manual setup
+Choose the default file action (\`--clear\` restores path printing)
+\`\`\`
+$ qrlkit set-filehook <command>
+\`\`\`
+
+Choose the directory hook (\`--clear\` restores changing directory)
+\`\`\`
+$ qrlkit set-dirhook <command>
+\`\`\`
+
+Choose browser, shell, filehook, and dirhook interactively
+\`\`\`
+$ qrlkit init
+\`\`\`
+
+Print the directory wrapper for manual setup
+\`\`\`
 $ qrlkit init <shell>
+\`\`\`
 
-# Reset imports, renames, and browser selection
+Reset imports, renames, browser selection, and hooks
+\`\`\`
 $ qrlkit nuke
+\`\`\`
 
-# Show help
+Show help
+\`\`\`
 $ qrlkit --help
+\`\`\`
 `,
   },
   {
@@ -122,72 +165,6 @@ $ curl -fsSL https://raw.githubusercontent.com/qrlkit/qrlkit-rs/main/install.sh 
 $ git clone git@github.com:qrlkit/qrlkit-rs.git
 $ cd qrlkit-rs
 $ cargo install --path .
-`,
-  },
-  {
-    file: 'using-inputs.toml',
-    open: false,
-    source: `# Providing inputs to tools could be gold..
-# syntax should enable variables in {} that users can provide..
-
-[stats]
-platform = "https://{subdomain}.stats.platform/{service}"
-
-[search]
-google = "https://google.com?q={input}"
-chatgpt = "https://chatgpt.com/?q={input}"
-
-# Same in dirs and file paths
-[helm]
-release = "~/dev/scaleapp/helm/{package}/release.yaml"
-
-[config]
-dotfiles = "~/.config/{tool}"
-
-# Scripts should support normal shell syntax with $1 $2 $3 etc
-[scripts]
-[scripts.release]
-"run" = """
-helm upgrade --install scaleapp ~/dev/scaleapp/helm/$1/release.yaml
-"""
-
-# And $@ to parse complete list of args user gave
-[scripts.pr]
-"run" = 'gh pr create "$@"'
-`,
-  },
-  {
-    file: 'customize.toml',
-    open: false,
-    source: `# User should be able customize behavior
-
-# Files by default just print the path stored
-# We should allow a filehook that does something else with a script
-[dotfiles]
-nvim = '~/.config/nvim/init.lua'
-tmux = '~/.config/tmux/.tmux.config'
-"filehook" = "nvim $file"
-
-# Same kind of things for dirs. By default we cd into them
-# but user should be able to do more like:
-[repo]
-blog = "~/blog"
-notes = "~/notes"
-"dirhook" = "cd $dir && tree -L 1 ."
-
-# Links are opens in the browser choosen at qrlkit init
-# Sometimes certain pages only run on som browsers
-# so user should be able to do something like
-
-[webtools]
-timereg = "https://hr.internal.org/app"
-"$browser" = "Chrome"
-
-# Each of these should be local overwrites to
-# global default values set by user with
-qrlkit set-filehook "nvim $file"
-qrlkit set-dirhook "cd $dir && tree -L 1"
-qrlkit set-browser "Chrome"
 `,
   },
 ];
