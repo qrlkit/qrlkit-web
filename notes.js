@@ -3,71 +3,75 @@
 // No config generation or later overrides: what you write is what readers see.
 const NOTES = [
   {
-    file: 'could-be-cool.toml',
+    file: 'how-it-started.md',
     open: false,
     featured: true,
-    source: `# <+> main idea <+>
-# qrlkit turns file --> cli tool
-# 1. Use config files to track booksmarks, snippets, shortcuts
-# 2. Run qrlkit to turn keys and values in files into small cli tools
-# 3. Only change config files for new behavior (auto updates)
+    source: `
+# How it started 
 
-# Imagine we just type "docs cli" or "docs wiki teams" in 
-# terminal and it opens in browser by mapping keys to urls
+Back in September 2026, it was a day like any other.
+I was debugging something that required me to work
+in multiple windows at once: my tmux, a browser and
+an admin tool. This endless going back and forward, 
+having to exit my terminal and use my mouse (ew) to 
+click-navigate through logs and the admin tool (with 
+multiple windows scattered all over the place), was
+draining me in way. 
 
-[docs]
-cli = "https://notion.so/CLI-guide-8e16b3a947c24f20a1d098c63b52ef74"
-ref = "https://notion.so/Reference-2c97d5e813a64b09b4f160d82e7a395c"
+And that day i realized what it was. You can probably
+guess it had something to do with spreading your 
+attention to thin, context switching etc. etc. And you
+would be right, but i want to be more specific: 
 
-[docs.wiki]
-teams = "https://notion.so/Teams-6a30c8f129d74e52a9b4061d83e7fc25"
-design-guide = "https://notion.so/Teams-947c24f20a1d094061d834061d83e733"
+**it was the endless recuring pauses**.
 
-# but we ALSO add dirs or files and just jump there when called
-notes = "~/home/notes"
-desk = "~/Desktop"
-dev = "~/dev"
+Between making progress on each little sub-quest 
+(reading this function, this log, this config etc) 
+i had to get of the "thought-train" and stop to find 
+out where to go next. Well not exactly - i almost 
+knew instantly *where to go* - but then navigating 
+to that place (especially outside the terminal) was 
+almost a task in it self. Thats what felt draining 
+that day. 
 
-# Uh or even put small tricks / scrips in there like "notes todo"
-[notes.todo]
-run = """
-path = ~/home/notes/todo.md
-sed -i "1i# $(date '+%Y-%m-%d %H:%M:%S')" $path
-nvim $path
-"""
+There is no removing the pauses completely, but 
+they could be *smoothed* some amount. I wanted all
+these key resources at the tips of my fingers, in
+my terminal, much like a normal CLI tool, so i could
+quickly just type "logs live that-service" and that
+would take me there with no additional clicking. 
+
+I also realised that coding a custom CLI tool just 
+for that purpose would not scale well. Any time
+i would want to expand it - i would have to code
+some more. So instead, the right solution felt more 
+like keeping the key resources in lists and then
+build a tool that could convert those lists into 
+CLI tool calls.
+
+Thats how it started. 
+
+Eventually those lists turned into config files such
+that special behaviors like custom hooks for opening
+specific files or dirs, quickly running scripts or 
+selecting specific browsers for specific bookmarks 
+was possible. The term "Quick Resource Locator" was 
+just an analog to Unique Resource Locators (URLs)
+and the postfix "kit" was added to it: qrlkit.
+
+The tool is available to anyone on github and its
+pretty simple. What i like most about it is how
+easy it is to add new resources and thus smooth out
+even more things. Its pretty addicting for someone
+like me. Maybe someone like you. 
+
+Hope it helps, check it out:
+https://github.com/qrlkit/qrlkit-rs
+
 `,
   },
   {
-    file: 'nesting.toml',
-    open: false,
-    source: `# Actually for logs having nesting would be very very use full
-# So for like "logs backend prod nginx" we would use keys like so:
-
-[logs]
-[logs.backend.prod]
-'api-server' = "https://logs.internal/app/discover#/view/a7f3c920"
-'nginx' = "https://logs.internal/app/discover#/view/9d21b6e4" # 
-'cache' = "https://logs.internal/app/discover#/view/c840f17a"
-'db' = "https://logs.internal/app/discover#/view/62be09d3"
-'cdn' = "https://dash.cloudflare.com/8f3a91c2d7e640b5a02c6e914db873fa/analytics"
-
-[logs.backend.staging]
-'api-server' = "https://logs.internal/app/discover#/view/f19a4c72"
-'nginx' = "https://logs.internal/app/discover#/view/30d8e5b1"
-'cache' = "https://logs.internal/app/discover#/view/b67c02f9"
-
-# And we can even store misc random queries
-[logs.misc.live]
-http500s = "https://logs.internal/app/discover#/view/e2409a6d"
-https404 = "https://logs.internal/app/discover#/view/7cb18f03"
-exceptions = "https://logs.internal/app/discover#/view/4a96d2e8"
-failed-signups = "https://logs.internal/app/discover#/view/d5037bc1"
-
-# and just run "logs misc live failed-signups" to quickly find logs
-`,
-  },
-  {
-    file: 'qrlkit-basics.toml',
+    file: 'qrlkit-cmds.toml',
     open: false,
     source: `# See installed QRLs
 $ qrlkit
@@ -98,6 +102,26 @@ $ qrlkit nuke
 
 # Show help
 $ qrlkit --help
+`,
+  },
+  {
+    file: 'install.toml',
+    open: false,
+    source: `# Installing qrlkit is now pretty easy
+
+# Package managers
+$ cargo install qrlkit
+$ npm i -g qrlkit
+$ bun add -g qrlkit
+$ yarn global add qrlkit
+
+# Latest Linux or macOS release
+$ curl -fsSL https://raw.githubusercontent.com/qrlkit/qrlkit-rs/main/install.sh | sh
+
+# Build from source
+$ git clone git@github.com:qrlkit/qrlkit-rs.git
+$ cd qrlkit-rs
+$ cargo install --path .
 `,
   },
   {
