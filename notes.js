@@ -148,6 +148,133 @@ $ qrlkit --help
 `,
   },
   {
+    file: 'file-tricks.md',
+    open: false,
+    source: `
+# Working with files
+
+Files and file-hooks came into qrlkit because i kept
+working with config files. Dotfiles, manifests etc.
+Having them at my fingertips with
+\`conf nvim\` or \`conf tmux\` just felt better than
+typing \`nvim ~/.config/...\` every time.
+
+So the idea was pretty simple: give the files names
+and tell qrlkit how to open them.
+
+\`\`\`toml
+# QRLs.toml
+[conf]
+filehook = "nvim $file"
+nvim = "~/.config/nvim/init.lua"
+tmux = "~/.tmux.conf"
+\`\`\`
+
+Import it, then open a new terminal:
+\`\`\`sh
+$ qrlkit add QRLs.toml
+$ conf nvim
+$ conf tmux
+\`\`\`
+
+The filehook gets the path as \`$file\`. Without a
+hook, qrlkit just prints the path.
+
+You can also set an editor for all your files:
+\`\`\`sh
+$ qrlkit set-filehook 'nvim $file'
+\`\`\`
+
+Of course we needed more features! So path segments
+became enumerable args..
+\`\`\`toml
+[tool.docs]
+url = "~/dev/{repo}/{docfile}"
+hint = "Edit project docs"
+filehook = "nvim $file"
+args = [
+  { name = "repo", enum = ["qrlkit-rs", "qrlkit-web"] },
+  { name = "docfile", enum = ["README.md", "CHANGELOG.md", "AGENTS.md"] },
+]
+\`\`\`
+
+\`\`\`sh
+$ tool docs qrlkit-rs README.md
+$ tool docs  # Choose interactively
+\`\`\`
+
+Of course, the argument choices can also be lifted
+into constants if you need them elsewhere:
+\`\`\`toml
+[constants]
+repos = ["qrlkit-rs", "qrlkit-web"]
+docfiles = ["README.md", "CHANGELOG.md", "AGENTS.md"]
+
+[tool.docs]
+url = "~/dev/{repo}/{docfile}"
+hint = "Edit project docs"
+filehook = "nvim $file"
+args = [
+  { name = "repo", enum = { ref = "constants.repos" } },
+  { name = "docfile", enum = { ref = "constants.docfiles" } },
+]
+\`\`\`
+
+So far, setting up files as key resources can be
+customised to a great extent. Each key can have its
+own filehook if you need it.
+
+# Examples
+
+## Todo list
+
+Say you wanted to abuse filehooks to create a todo list like this:
+
+\`\`\`sh
+$ todo add
+> Fix the moon laser
+$ todo add
+> Order coffee
+$ todo view
+     1  Fix the moon laser
+     2  Order coffee
+$ todo done
+Done: 1
+$ todo view
+     1  Order coffee
+\`\`\`
+
+### Implementation
+
+Create a filehook for each of the commands and modify the same file
+
+\`\`\`toml
+[constants]
+todo = "~/todo.md"
+
+[todo.view]
+url = "{constants.todo}"
+filehook = "sed 's/^- //' $file | cat -n"
+
+[todo.add]
+url = "{constants.todo}"
+filehook = '''
+read -rp '> ' task || exit 1
+printf -- '- %s\\n' "$task" >> $file
+'''
+
+[todo.done]
+url = "{constants.todo}"
+filehook = '''
+read -rp 'Done: ' n || exit 1
+[[ $n =~ ^[1-9][0-9]*$ ]] || exit 1
+sed -i.bak "\${n}d" $file
+'''
+\`\`\`
+
+`,
+  },
+  {
     file: 'install.toml',
     open: false,
     source: `# Installing qrlkit is now pretty easy

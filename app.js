@@ -4,8 +4,24 @@ function span(className, text) {
   node.textContent = text;
   return node;
 }
-function highlight(line) {
+function highlight(line, language = '') {
   const fragment = document.createDocumentFragment();
+  if (['sh', 'bash', 'zsh', 'shell'].includes(language) || /^\s*\$ /.test(line)) {
+    const tokens = line.match(/#[^\n]*|"(?:\\.|[^"\\])*"|'[^']*'|\$[\w]+|--?[\w-]+|[^\s]+|\s+/g) || [];
+    let command = true;
+    tokens.forEach(token => {
+      let type = '';
+      if (token.startsWith('#')) type = 'comment';
+      else if (/^['"]/.test(token)) type = 'string';
+      else if (token === '$' || /^[|&;]+$/.test(token)) type = 'section';
+      else if (/^\$\w|^-/.test(token)) type = 'key';
+      else if (command && token.trim()) type = 'key';
+      fragment.append(type ? span(type, token) : document.createTextNode(token));
+      if (/^[|&;]+$/.test(token)) command = true;
+      else if (token.trim() && token !== '$') command = false;
+    });
+    return fragment;
+  }
   if (line.trimStart().startsWith('#')) {
     fragment.append(span('comment', line));
     return fragment;
@@ -37,9 +53,12 @@ function createTile(example, index) {
   pre.setAttribute('role', 'region');
   pre.setAttribute('aria-label', `${example.file} code, scroll to read`);
   const body = document.createElement('code');
+  let language = '';
   code.split('\n').forEach(line => {
     const row = span('line', '');
-    row.append(highlight(line));
+    const fence = line.match(/^\s*```(\w*)\s*$/);
+    if (fence) language = fence[1];
+    row.append(highlight(line, language));
     body.append(row, document.createTextNode('\n'));
   });
   pre.append(body);
